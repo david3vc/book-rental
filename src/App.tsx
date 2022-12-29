@@ -1,4 +1,4 @@
-import Admin from "./layouts/Admin";
+import Admin from './layouts/Admin';
 
 const App = (): JSX.Element => {
 	return <Admin />;
