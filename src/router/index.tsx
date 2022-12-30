@@ -8,6 +8,9 @@ const SendResetLink = lazy(async () => await import('../views/auth/send-reset-li
 
 const Home = lazy(async () => await import('../views/home'));
 const Editorial = lazy(async () => await import('../views/editorial'));
+const Libro = lazy(async () => await import('../views/libro'));
+const Solicitante = lazy(async () => await import('../views/solicitante'));
+const Prestamo = lazy(async () => await import('../views/prestamo'));
 const LoadingPage = (): JSX.Element => {
 	return <>Loading...</>;
 };
@@ -31,6 +34,30 @@ const routes: RouteObject[] = [
 				element: (
 					<Suspense fallback={<LoadingPage />}>
 						<Editorial />
+					</Suspense>
+				),
+			},
+			{
+				path: '/libros',
+				element: (
+					<Suspense fallback={<LoadingPage />}>
+						<Libro />
+					</Suspense>
+				),
+			},
+			{
+				path: '/solicitantes',
+				element: (
+					<Suspense fallback={<LoadingPage />}>
+						<Solicitante />
+					</Suspense>
+				),
+			},
+			{
+				path: '/prestamos',
+				element: (
+					<Suspense fallback={<LoadingPage />}>
+						<Prestamo />
 					</Suspense>
 				),
 			},

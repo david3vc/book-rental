@@ -1,5 +1,5 @@
 const index = (): JSX.Element => {
-	return <div>Editoriales</div>;
+	return <div>Solicitante</div>;
 };
 
 export default index;

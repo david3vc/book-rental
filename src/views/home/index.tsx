@@ -15,8 +15,12 @@ const index = (): JSX.Element => {
 				</Col>
 				<Col className="d-flex justify-content-end align-items-center">
 					<div>
-						<Button variant="primary" size='sm'>Primary</Button>{' '}
-						<Button variant="secondary" size='sm'>Secondary</Button>
+						<Button variant="primary" size="sm">
+							Primary
+						</Button>{' '}
+						<Button variant="secondary" size="sm">
+							Secondary
+						</Button>
 					</div>
 				</Col>
 			</Row>
