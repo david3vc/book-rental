@@ -45,7 +45,7 @@ const LeftSidebar = (): JSX.Element => {
 							</a>
 							<ul aria-expanded="false" className="collapse">
 								<li>
-									<a href="#">Editoriales</a>
+									<Link to="/editoriales">Editoriales</Link>
 								</li>
 							</ul>
 						</li>
