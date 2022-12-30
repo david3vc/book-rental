@@ -11,7 +11,8 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import { EditorialService } from '../../services';
-import { EditorialModel, RequestPagination, ResponsePagination } from '../../types';
+import { EditorialModel, FilterPage, RequestPagination, ResponsePagination } from '../../types';
+import { Pagination } from 'react-bootstrap';
 
 const index = (): JSX.Element => {
 	// Atributes
@@ -20,8 +21,8 @@ const index = (): JSX.Element => {
 
 	// Hooks
 	useEffect(() => {
-		void findAllEditorial();
-		void paginatedSearch();
+		// void findAllEditorial();
+		void paginatedSearch({page: 1, perPage: 10});
 	}, []);
 
 	// Vendor
@@ -61,15 +62,20 @@ const index = (): JSX.Element => {
 		setEditoriales(data);
 	};
 
-	const paginatedSearch = async (): Promise<void> => {
+	const paginatedSearch = async (payload: FilterPage): Promise<void> => {
 		const searchFilter: RequestPagination<EditorialModel> = {
-			page: 1,
-			perPage: 10,
+			page: payload?.page,
+			perPage: payload?.perPage,
 		};
 		const response = await EditorialService.findPaginatedSearch(searchFilter);
 		const data: ResponsePagination<EditorialModel> = response.data;
 		setDataEditorial(data);
 		console.log(data);
+	};
+
+	const handleGoToPage = (payload: FilterPage): void => {
+		console.log('jejeje', payload);
+		void paginatedSearch({page: payload?.page, perPage: payload?.perPage});
 	};
 
 	return (
@@ -113,21 +119,67 @@ const index = (): JSX.Element => {
 									))}
 								</thead>
 								<tbody>
-									{
-										table.getRowModel().rows.map(row => (
-											<tr key={row.id}>
-												{
-													row.getVisibleCells().map(cell => (
-														<td key={cell.id}>
-															{flexRender(cell.column.columnDef.cell, cell.getContext())}
-														</td>
-													))
-												}
-											</tr>
-										))
-									}
+									{table.getRowModel().rows.map(row => (
+										<tr key={row.id}>
+											{row.getVisibleCells().map(cell => (
+												<td key={cell.id}>
+													{flexRender(cell.column.columnDef.cell, cell.getContext())}
+												</td>
+											))}
+										</tr>
+									))}
 								</tbody>
 							</Table>
+
+							<div className="d-flex justify-content-between align-items-center flex-wrap">
+								<div className="d-flex justify-content-between align-items-center py-1">
+									<div className="pe-2">
+										Mostrando registro del{' '}
+										<span className="fw-bold">{dataEditorial?.from ?? 1}</span> al{' '}
+										<span className="fw-bold">{dataEditorial?.to ?? 0}</span> de un total de{' '}
+										<span className="fw-bold">{dataEditorial?.total ?? 0}</span> registros
+									</div>
+								</div>
+								<Pagination>
+									<Pagination.First
+										disabled={dataEditorial?.currentPage === 1}
+										onClick={() =>
+											handleGoToPage({
+												page: 1,
+												perPage: dataEditorial?.perPage ?? 10,
+											})
+										}
+									/>
+									<Pagination.Prev
+										disabled={dataEditorial?.currentPage === 1}
+										onClick={() =>
+											handleGoToPage({
+												page: (dataEditorial?.currentPage ?? 0) - 1,
+												perPage: dataEditorial?.perPage ?? 10,
+											})
+										}
+									/>
+									<Pagination.Ellipsis />
+									<Pagination.Next
+										disabled={dataEditorial?.currentPage === dataEditorial?.lastPage}
+										onClick={() =>
+											handleGoToPage({
+												page: (dataEditorial?.currentPage ?? 0) + 1,
+												perPage: dataEditorial?.perPage ?? 10,
+											})
+										}
+									/>
+									<Pagination.Last
+										disabled={dataEditorial?.currentPage === dataEditorial?.lastPage}
+										onClick={() =>
+											handleGoToPage({
+												page: dataEditorial?.lastPage ?? 0,
+												perPage: dataEditorial?.perPage ?? 10,
+											})
+										}
+									/>
+								</Pagination>
+							</div>
 						</Card.Body>
 					</Card>
 				</Col>
