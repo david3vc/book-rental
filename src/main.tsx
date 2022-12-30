@@ -18,5 +18,5 @@ import { RouterProvider } from 'react-router-dom';
 library.add(fas, far);
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-	<RouterProvider router={router} />
+	<RouterProvider router={router} />,
 );
